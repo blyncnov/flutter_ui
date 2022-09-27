@@ -110,16 +110,18 @@ class MyScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      color: const Color.fromARGB(255, 255, 248, 248),
-                      width: MediaQuery.of(context).size.width,
-                      child: const Text(
-                        "SZMANLIZI Costume Homme Yellow Double Breasted Men Suits Tuxedo Groom Prom Wedding Blazer Terno Masculino Slim Fit Jacket Pant. Available in all sizes.",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300, fontSize: 13.0),
+                    Expanded(
+                      flex: 1,
+                      child: Center(
+                        child: Container(
+                          color: const Color.fromARGB(255, 255, 248, 248),
+                          width: MediaQuery.of(context).size.width,
+                          child: const Text(
+                            "SZMANLIZI Costume Homme Yellow Double Breasted Men Suits Tuxedo Groom Prom Wedding Blazer Terno Masculino Slim Fit Jacket Pant. Available in all sizes.",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 13.0),
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(
