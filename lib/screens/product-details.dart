@@ -16,15 +16,14 @@ class MyScreen extends StatelessWidget {
               flex: 2,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: const BoxDecoration(
                   color: Colors.red,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.red,
-                      blurRadius: 10,
-                      offset: Offset(1, 1),
+                      color: Color.fromARGB(194, 244, 67, 54),
+                      blurRadius: 15,
+                      offset: Offset(1, -1),
                     )
                   ],
                   image: DecorationImage(
@@ -118,7 +117,7 @@ class MyScreen extends StatelessWidget {
                       color: const Color.fromARGB(255, 255, 248, 248),
                       width: MediaQuery.of(context).size.width,
                       child: const Text(
-                        "lorem ipsum dolor sit am sht sg ejehej ehj e lorem ipsum dolor sit am sht sg ejehej ehj e lorem ipsum dolor sit am sht sg ejehej ehj e lorem ipsum dolor sit am sht sg ejehej ehj e",
+                        "SZMANLIZI Costume Homme Yellow Double Breasted Men Suits Tuxedo Groom Prom Wedding Blazer Terno Masculino Slim Fit Jacket Pant. Available in all sizes.",
                         style: TextStyle(
                             fontWeight: FontWeight.w300, fontSize: 13.0),
                       ),
@@ -149,6 +148,7 @@ class MyScreen extends StatelessWidget {
                           ),
                         ),
                         FloatingActionButton(
+                          elevation: 5,
                           backgroundColor:
                               const Color.fromARGB(151, 255, 230, 229),
                           onPressed: () {
