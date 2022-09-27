@@ -119,7 +119,9 @@ class MyScreen extends StatelessWidget {
                           child: const Text(
                             "SZMANLIZI Costume Homme Yellow Double Breasted Men Suits Tuxedo Groom Prom Wedding Blazer Terno Masculino Slim Fit Jacket Pant. Available in all sizes.",
                             style: TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 13.0),
+                                fontWeight: FontWeight.w400,
+                                height: 1.5,
+                                fontSize: 13.0),
                           ),
                         ),
                       ),
