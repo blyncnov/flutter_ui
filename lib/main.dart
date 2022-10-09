@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:learning_flutter/screens/product-details.dart';
 import './transaction.dart';
 
 void main() {
@@ -13,42 +12,112 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyScreen(),
+      home: ExpenseApp(),
     );
   }
 }
 
-class ExpenseApp extends StatelessWidget {
-  ExpenseApp({super.key});
+class ExpenseApp extends StatefulWidget {
+  const ExpenseApp({super.key});
 
-  final List<Transaction> transactions = [
-    Transaction(
-      id: "t1",
-      title: "New Shoe",
-      amount: 69.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t2",
-      title: "New Coding Gera",
-      amount: 269.99,
-      date: DateTime.now(),
-    )
-  ];
+  @override
+  State<ExpenseApp> createState() => _ExpenseAppState();
+}
 
-  // String textValue = '';
-  // String amountValue = '';
+class _ExpenseAppState extends State<ExpenseApp> {
+  final List<Transaction> transactions = <Transaction>[];
 
   final controlTextvalue = TextEditingController();
   final controlTextAmount = TextEditingController();
+
+  void _startAddNewTransaction(BuildContext context) {
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 20),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: SizedBox(
+                height: 200,
+                child: Column(
+                  children: <Widget>[
+                    const Text(
+                      "Instant Transfer successful",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 52, 51, 51),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                        "You've successful transferred N200,00.00 to 5049752018",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 52, 51, 51),
+                            fontSize: 15)),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Text("(TAIWO BOLUWATIFE JEREMIAH of FCMB)",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 52, 51, 51),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600)),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    const Divider(
+                        color: Color.fromARGB(255, 52, 51, 51), thickness: 0.2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        const Text("Continue",
+                            style: TextStyle(
+                                color: Color.fromARGB(220, 89, 22, 116),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600)),
+                        Container(
+                          height: 30,
+                          width: 0.6,
+                          color: const Color.fromARGB(255, 52, 51, 51),
+                        ),
+                        const Text("View Receipt",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Color.fromARGB(220, 89, 22, 116),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600)),
+                      ],
+                    )
+                  ],
+                ),
+              ));
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Expense Tracker', textAlign: TextAlign.center),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Expense Keeper', textAlign: TextAlign.center),
+            GestureDetector(
+              onTap: () => _startAddNewTransaction(context),
+              child: const Icon(Icons.add),
+            )
+          ],
+        ),
         centerTitle: false,
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: const Color.fromARGB(255, 22, 109, 240),
       ),
       body: SafeArea(
         child: Column(
@@ -59,7 +128,7 @@ class ExpenseApp extends StatelessWidget {
               height: 10,
             ),
             Card(
-              color: Colors.blueGrey,
+              color: const Color.fromARGB(255, 22, 109, 240),
               elevation: 3,
               child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -81,14 +150,25 @@ class ExpenseApp extends StatelessWidget {
                                 labelText: 'Amount', hintText: "Enter amount "),
                             controller: controlTextAmount,
                           ),
-                          FloatingActionButton(
-                            onPressed: () {
-                              // ignore: avoid_print
-                              print(controlTextvalue.text);
-                              // ignore: avoid_print
-                              print(controlTextAmount.text);
-                            },
-                            child: const Text('Submit'),
+                          Container(
+                            margin: const EdgeInsets.only(top: 5),
+                            child: ElevatedButton(
+                              style: const ButtonStyle(),
+                              onPressed: () {
+                                setState(() {
+                                  transactions.add(
+                                    Transaction(
+                                      id: transactions.length.toString(),
+                                      title: controlTextvalue.text,
+                                      amount:
+                                          double.parse(controlTextAmount.text),
+                                      date: DateTime.now(),
+                                    ),
+                                  );
+                                });
+                              },
+                              child: const Text('Add Transaction'),
+                            ),
                           ),
                         ],
                       ),
@@ -107,47 +187,49 @@ class ExpenseApp extends StatelessWidget {
                 ),
               ),
             ),
-            // Card(
-            //   child: Container(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child: const Text(
-            //       'List of Transactions',
-            //       style: TextStyle(
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Expanded(
+                child: transactions.isEmpty
+                    ? const Center(
+                        child: Text("No Transaction Found",
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Color.fromARGB(255, 201, 200, 200))),
+                      )
+                    : ListView.builder(
+                        itemCount: transactions.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return Container(
+                            padding: const EdgeInsets.only(
+                              top: 5,
+                              bottom: 5,
+                              left: 10,
+                              right: 10,
+                            ),
+                            child: Card(
+                              elevation: 1,
+                              child: ListTile(
+                                onTap: () {
+                                  // ignore: avoid_print
+                                  print("Tile is Tapped");
+                                },
+                                leading: const FlutterLogo(),
+                                trailing: InkWell(
+                                  onTap: () {
+                                    // ignore: avoid_print
+                                    print("Inkwell Button is Tapped");
+                                  },
+                                  child: Ink(
+                                    child: const Icon(Icons.delete_forever),
+                                  ),
+                                ),
+                                title: Text(' ${transactions[index].title} '),
+                              ),
+                            ),
+                          );
+                        })),
           ],
         ),
       ),
     );
   }
 }
-
-// class HomePage extends StatelessWidget {
-//   const HomePage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.green[400],
-//         title: const Text("Dog Pethub"),
-//         centerTitle: false,
-//       ),
-//       body: SafeArea(
-//         child: Column(
-//           children: const <Widget>[
-//             Image(
-//               image: AssetImage('lib/assets/dog.jpg'),
-//             ),
-//             Card(
-//               child: Text("Dog Pethub"),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
